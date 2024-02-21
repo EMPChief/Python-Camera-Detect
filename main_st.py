@@ -34,6 +34,8 @@ if start_button:
         try:
             video_capture = cv2.VideoCapture(video_device_index)
             time.sleep(3)
+            if not video_capture.isOpened():
+                raise ValueError("Camera not accessible.")
             camera_started = True
         except Exception as e:
             st.error(f"Error starting camera: {str(e)}")

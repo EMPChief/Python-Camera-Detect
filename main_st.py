@@ -3,6 +3,7 @@ import time
 import numpy as np
 import datetime
 import cv2
+
 st.set_page_config(
     page_title="EMP Camera Test",
     page_icon="favicon.ico",
@@ -74,7 +75,7 @@ while camera_started:
     st.image(frame_rgb, channels="RGB", use_column_width=True)
     st.markdown("Press 'q' to quit")
 
-    key = cv2.waitKey(1)
+    key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
         break
 

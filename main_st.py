@@ -39,6 +39,8 @@ if start_button:
             camera_started = True
         except Exception as e:
             st.error(f"Error starting camera: {str(e)}")
+            if "Camera not accessible" in str(e):
+                st.write("Please check the camera connection, drivers, and permissions.")
     else:
         camera_started = False
 

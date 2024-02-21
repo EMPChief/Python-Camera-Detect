@@ -31,9 +31,12 @@ status_list = []
 
 if start_button:
     if not camera_started:
-        video_capture = cv2.VideoCapture(video_device_index)
-        time.sleep(3)
-        camera_started = True
+        try:
+            video_capture = cv2.VideoCapture(video_device_index)
+            time.sleep(3)
+            camera_started = True
+        except Exception as e:
+            st.error(f"Error starting camera: {str(e)}")
     else:
         camera_started = False
 

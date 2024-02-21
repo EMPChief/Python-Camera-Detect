@@ -1,5 +1,4 @@
 import streamlit as st
-import cv2
 import time
 import numpy as np
 import datetime
@@ -30,6 +29,7 @@ previous_frame = None
 status_list = []
 
 if start_button:
+    import cv2
     if not camera_started:
         video_capture = cv2.VideoCapture(video_device_index)
         time.sleep(3)

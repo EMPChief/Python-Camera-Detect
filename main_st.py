@@ -3,6 +3,7 @@ import cv2
 import time
 import numpy as np
 import datetime
+
 st.set_page_config(
     page_title="EMP Camera Test",
     page_icon="favicon.ico",
@@ -15,16 +16,28 @@ video_device_index = st.sidebar.number_input("Video Device Index", value=0)
 threshold_value = st.sidebar.slider("Threshold Value", 0, 255, 51)
 min_contour_area = st.sidebar.slider("Minimum Contour Area", 0, 50000, 10000)
 
-start_button = st.sidebar.button("Start Camera")
+camera_started = False
+
+if not camera_started:
+    start_stop_text = "Start Camera"
+else:
+    start_stop_text = "Stop Camera"
+
+start_button = st.sidebar.button(start_stop_text)
+
 video_capture = None
 previous_frame = None
 status_list = []
 
 if start_button:
-    video_capture = cv2.VideoCapture(video_device_index)
-    time.sleep(3)
+    if not camera_started:
+        video_capture = cv2.VideoCapture(video_device_index)
+        time.sleep(3)
+        camera_started = True
+    else:
+        camera_started = False
 
-while video_capture is not None and video_capture.isOpened():
+while camera_started:
     status = 0
     success, frame = video_capture.read()
     if not success:
@@ -49,10 +62,10 @@ while video_capture is not None and video_capture.isOpened():
         x, y, w, h = cv2.boundingRect(contour)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
         status = 1
-    
+
     status_list.append(status)
     status_list = status_list[-2:]
-    
+
     font = cv2.FONT_HERSHEY_SIMPLEX
     current_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     cv2.putText(frame, f"Camera {camera_number} - {current_datetime}",
@@ -68,4 +81,3 @@ while video_capture is not None and video_capture.isOpened():
 
 if video_capture is not None:
     video_capture.release()
-

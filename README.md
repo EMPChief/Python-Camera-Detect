@@ -60,7 +60,7 @@ Before running the program, make sure you have the following installed:
 3. Run the program:
 
     ```shell
-    python motion_detection.py
+    python main.py
     ```
 
 ## Contributing

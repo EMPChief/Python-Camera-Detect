@@ -10,37 +10,43 @@ Before running the program, make sure you have the following installed:
 - OpenCV (cv2) library
 - smtplib library (for sending email notifications)
 
-
-
 ## Installation
 
 1. Clone the repository:
 
     ```shell
     git clone https://github.com/empchief/Python-Camera-Detect
+    ```
+
 2. Create and activate a virtual environment (optional but recommended):
 
     ```shell
     python -m venv venv
     ```
-2. Start the venv:
-- Windows:
-    ```shell
-    venv/scripts/activate
-    ```
-- Linux:
-    ```shell
-    source venv/bin/activate
-    ```
-3. Install the required dependencies:
+
+3. Start the virtual environment:
+   - Windows:
+     ```shell
+     venv\Scripts\activate
+     ```
+   - Linux:
+     ```shell
+     source venv/bin/activate
+     ```
+
+4. Install the required dependencies:
 
     ```shell
     pip install opencv-python
     pip install smtplib
     ```
+
+5. Install additional dependencies from the requirements.txt file:
+
     ```shell
     pip install -r requirements.txt
     ```
+
 ## Usage
 
 1. Open the `main.py` file.
@@ -52,9 +58,10 @@ Before running the program, make sure you have the following installed:
     video_source = 0
 
     # Set the email configuration in a .env file
-    email_sender = 'your-email@example.com'
-    email_password = 'your-email-password'
-    email_receiver = 'receiver-email@example.com'
+    email_mail=your-email@example.com
+    email_password=email_pass
+    email_host=smtp.gmail.com
+    email_port=587
     ```
 
 3. Run the program:

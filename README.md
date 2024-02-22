@@ -24,11 +24,11 @@ Before running the program, make sure you have the following installed:
     python -m venv venv
     ```
 2. Start the venv:
-- Linux:
+- Windows:
     ```shell
     venv/scripts/activate
     ```
-- windows:
+- Linux:
     ```shell
     source venv/bin/activate
     ```

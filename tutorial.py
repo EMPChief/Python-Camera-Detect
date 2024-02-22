@@ -3,11 +3,12 @@ import streamlit as st
 from datetime import datetime
 
 st.title("Motion Detector")
+camera_index = st.number_input("Camera Index", value=0, step=1)
 start_button = st.button('Start Camera')
 
 if start_button:
     displayed_image = st.image([])
-    camera = cv2.VideoCapture(0)
+    camera = cv2.VideoCapture(camera_index)
 
     while True:
         success, frame = camera.read()
@@ -27,3 +28,4 @@ if start_button:
                     thickness=2, lineType=cv2.LINE_AA)
         
         displayed_image.image(frame)
+

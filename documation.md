@@ -1,7 +1,7 @@
 # Motion Detector Documentation
 
 ## Overview
-This script `motion_detector.py` is designed to detect motion using a webcam or video device connected to the computer. It continuously captures frames from the camera, processes them to detect motion, and performs actions such as saving images when motion is detected and sending an email notification. It utilizes the OpenCV library for image processing and an `EmailSender` class for sending emails.
+This script `main.py` is designed to detect motion using a webcam or video device connected to the computer. It continuously captures frames from the camera, processes them to detect motion, and performs actions such as saving images when motion is detected and sending an email notification. It utilizes the OpenCV library for image processing and an `EmailSender` class for sending emails.
 
 ## Dependencies
 - `cv2` (OpenCV): Used for video capture, image processing, and motion detection.

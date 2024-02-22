@@ -44,3 +44,9 @@ To use the Motion Detector:
 
 1. Import the necessary libraries:
 ```python
+import cv2
+import time
+from EmailSender import EmailSender
+import datetime
+import glob
+```

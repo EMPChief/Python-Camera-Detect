@@ -1,6 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
 import dotenv
 import os
 dotenv.load_dotenv()
@@ -12,7 +13,7 @@ class EmailSender:
         self.smtp_username = os.getenv("email_mail")
         self.smtp_password = os.getenv("email_pass")
 
-    def send_email(self, subject, body, recipient_email):
+    def send_email(self, subject, body, recipient_email, image_path=None):
         print(f"Sending email to {recipient_email}...")
         email_message = MIMEMultipart()
         email_message['From'] = self.smtp_username
@@ -23,6 +24,15 @@ class EmailSender:
             body = body.encode('utf-8')
 
         email_message.attach(MIMEText(body.decode('utf-8'), 'plain'))
+
+        if image_path:
+            try:
+                with open(image_path, 'rb') as img_file:
+                    img_data = img_file.read()
+                image = MIMEImage(img_data, name=os.path.basename(image_path))
+                email_message.attach(image)
+            except Exception as e:
+                print(f"Error attaching image: {e}")
 
         try:
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as smtp_server:

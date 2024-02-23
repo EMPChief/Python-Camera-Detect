@@ -2,16 +2,17 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
-import dotenv
 import os
-dotenv.load_dotenv()
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class EmailSender:
     def __init__(self):
-        self.smtp_server = os.getenv("email_host")
-        self.smtp_port = int(os.getenv("email_port"))
-        self.smtp_username = os.getenv("email_mail")
-        self.smtp_password = os.getenv("email_pass")
+        self.smtp_server = os.getenv("EMAIL_HOST")
+        self.smtp_port = int(os.getenv("EMAIL_PORT"))
+        self.smtp_username = os.getenv("EMAIL_MAIL")
+        self.smtp_password = os.getenv("EMAIL_PASS")
 
     def send_email(self, subject, body, recipient_email, image_path=None):
         print(f"Sending email to {recipient_email}...")
@@ -40,6 +41,7 @@ class EmailSender:
                 smtp_server.login(self.smtp_username, self.smtp_password)
                 smtp_server.sendmail(
                     self.smtp_username, recipient_email, email_message.as_string())
+            print("Email sent successfully!")
             return True
         except Exception as e:
             print(f"Error sending email: {e}")

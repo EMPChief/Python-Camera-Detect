@@ -9,10 +9,13 @@ load_dotenv()
 
 class EmailSender:
     def __init__(self):
-        self.smtp_server = os.getenv("EMAIL_HOST")
-        self.smtp_port = int(os.getenv("EMAIL_PORT"))
-        self.smtp_username = os.getenv("EMAIL_MAIL")
-        self.smtp_password = os.getenv("EMAIL_PASS")
+        self.smtp_server = os.getenv("email_host")
+        self.smtp_port = int(os.getenv("email_port"))
+        self.smtp_username = os.getenv("email_mail")
+        self.smtp_password = os.getenv("email_pass")
+
+        if not all([self.smtp_server, self.smtp_port, self.smtp_username, self.smtp_password]):
+            raise ValueError("Email configuration is incomplete. Please check your environment variables.")
 
     def send_email(self, subject, body, recipient_email, image_path=None):
         print(f"Sending email to {recipient_email}...")
@@ -46,3 +49,12 @@ class EmailSender:
         except Exception as e:
             print(f"Error sending email: {e}")
             return False
+
+
+if __name__ == "__main__":
+    EmailSender().send_email(
+        subject="Testing",
+        body="This is a test email.",
+        recipient_email="support@empchief.com",
+        image_path="image.jpg"
+    )

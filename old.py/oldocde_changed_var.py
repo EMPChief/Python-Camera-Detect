@@ -12,8 +12,8 @@ class MotionDetector:
         self.camera_id = camera_id
         self.video_device_index = video_device_index
         self.previous_frame = None
-        self.motion_status_list = []
-        self.motion_count = 0
+        self.status_list = []
+        self.count = 0
 
     def start_capture(self):
         video_capture = cv2.VideoCapture(self.video_device_index)
@@ -58,20 +58,20 @@ class MotionDetector:
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
             motion_detected = 1
             cv2.imwrite(
-                f"image/motion_detected_{self.camera_id}_{self.motion_count}.png", frame)
-            self.motion_count += 1
+                f"image/motion_detected_{self.camera_id}_{self.count}.png", frame)
+            self.count += 1
             all_images = glob.glob("image/motion_detected_*")
             index = int(len(all_images) / 2)
             image_with_object = all_images[index]
-        self.motion_status_list.append(motion_detected)
-        self.motion_status_list = self.motion_status_list[-2:]
-        if self.motion_status_list[0] == 1 and self.motion_status_list[1] == 0:
+        self.status_list.append(motion_detected)
+        self.status_list = self.status_list[-2:]
+        if self.status_list[0] == 1 and self.status_list[1] == 0:
             email_thread = Thread(target=self.send_motion_email,
                                   args=(image_with_object,))
             email_thread.daemon = True
             email_thread.start()
             email_thread.join()
-            clean_thread = Thread(target=self.clean_motion_folder)
+            clean_thread = Thread(target=self.clean_folder)
             clean_thread.daemon = True
             clean_thread.start()
 
@@ -97,12 +97,12 @@ class MotionDetector:
         cv2.putText(frame, f"Camera {self.camera_id} - {current_datetime}",
                     (10, frame.shape[0] - 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
-    def clean_motion_folder(self):
-        print("Cleaning motion folder function started...")
+    def clean_folder(self):
+        print("Cleaning folder function started...")
         all_images = glob.glob("image/motion_detected_*")
         for image in all_images:
             os.remove(image)
-        print("Cleaning motion folder function ran successfully!")
+        print("Cleaning folder function ran successfully!")
 
 
 if __name__ == "__main__":

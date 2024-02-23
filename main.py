@@ -3,7 +3,7 @@ import time
 import datetime
 import glob
 from EmailSender import EmailSender
-
+import os
 
 class MotionDetector:
     def __init__(self, camera_id=173, video_device_index=0):
@@ -59,14 +59,13 @@ class MotionDetector:
                 f"image/motion_detected_{self.camera_id}_{self.count}.png", frame)
             self.count += 1
             all_images = glob.glob("image/motion_detected_*")
-            length = len(all_images)
-            if length > 0:
-                image_with_object = all_images[length - 1]
-
+            index = int(len(all_images) / 2)
+            image_with_object = all_images[index]
         self.status_list.append(motion_detected)
         self.status_list = self.status_list[-2:]
-        if self.status_list[-2:] == [1, 0]:
+        if self.status_list[0] == 1 and self.status_list[1] == 0:
             self.send_motion_email(image_with_object)
+            self.clean_folder()
 
         self.display_text(frame)
 
@@ -87,6 +86,11 @@ class MotionDetector:
         current_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         cv2.putText(frame, f"Camera {self.camera_id} - {current_datetime}",
                     (10, frame.shape[0] - 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        
+    def clean_folder(self):
+        all_images = glob.glob("image/motion_detected_*")
+        for image in all_images:
+            os.remove(image)
 
 
 if __name__ == "__main__":
